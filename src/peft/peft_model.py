@@ -59,6 +59,8 @@ from .tuners import (
     VeraModel,
     XLoraConfig,
     XLoraModel,
+    RepSteerConfig,
+    RepSteerModel,
 )
 from .tuners.tuners_utils import BaseTuner, BaseTunerLayer
 from .utils import (
@@ -98,6 +100,7 @@ PEFT_TYPE_TO_MODEL_MAPPING = {
     PeftType.FOURIERFT: FourierFTModel,
     PeftType.XLORA: XLoraModel,
     PeftType.HRA: HRAModel,
+    PeftType.REP_STEER: RepSteerModel,
 }
 
 
@@ -541,7 +544,7 @@ class PeftModel(PushToHubMixin, torch.nn.Module):
             model = MODEL_TYPE_TO_PEFT_MODEL_MAPPING[config.task_type](
                 model, config, adapter_name, autocast_adapter_dtype=autocast_adapter_dtype
             )
-
+    
         model.load_adapter(
             model_id, adapter_name, is_trainable=is_trainable, autocast_adapter_dtype=autocast_adapter_dtype, **kwargs
         )
