@@ -130,6 +130,9 @@ def get_peft_model_state_dict(
         else:
             raise NotImplementedError
 
+    elif config.peft_type == PeftType.REP_STEER:
+        to_return = {k: state_dict[k] for k in state_dict if "rep_steer_" in k}
+
     elif config.peft_type == PeftType.LOHA:
         to_return = {k: state_dict[k] for k in state_dict if "hada_" in k}
 
@@ -321,6 +324,7 @@ def set_peft_model_state_dict(
         PeftType.VERA,
         PeftType.FOURIERFT,
         PeftType.HRA,
+        PeftType.REP_STEER,
     ):
         peft_model_state_dict = {}
         parameter_prefix = {
@@ -336,6 +340,7 @@ def set_peft_model_state_dict(
             PeftType.VERA: "vera_lambda_",
             PeftType.FOURIERFT: "fourierft_",
             PeftType.HRA: "hra_",
+            PeftType.REP_STEER: "rep_steer_",
         }[config.peft_type]
         for k, v in state_dict.items():
             if parameter_prefix in k:
