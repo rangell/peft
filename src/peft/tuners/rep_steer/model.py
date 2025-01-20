@@ -46,8 +46,8 @@ class TiedUnsafeSteeringVectorLayer(nn.Module, BaseTunerLayer):
 
     def forward(self, x):
         _normed_unsafe_direction = F.normalize(self.tied_module.rep_steer_directions, p=2, dim=0)
-        x = x - torch.einsum("bl,d->bld", F.gelu(torch.matmul(x, _normed_unsafe_direction)), _normed_unsafe_direction)
-        #x = x - torch.einsum("bl,d->bld", F.relu(torch.matmul(x, _normed_unsafe_direction)), _normed_unsafe_direction)
+        #x = x - torch.einsum("bl,d->bld", F.gelu(torch.matmul(x, _normed_unsafe_direction)), _normed_unsafe_direction)
+        x = x - torch.einsum("bl,d->bld", F.relu(torch.matmul(x, _normed_unsafe_direction)), _normed_unsafe_direction)
         return x
 
     def __repr__(self) -> str:
