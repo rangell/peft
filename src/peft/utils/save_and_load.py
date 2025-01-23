@@ -348,12 +348,12 @@ def set_peft_model_state_dict(
                 if "." in suffix:
                     suffix_to_replace = ".".join(suffix.split(".")[1:])
                     k = k.replace(suffix_to_replace, f"{adapter_name}.{suffix_to_replace}")
-                else:
-                    k = f"{k}.{adapter_name}"
+                elif config.peft_type != PeftType.REP_STEER:
+                        k = f"{k}.{adapter_name}"
                 peft_model_state_dict[k] = v
             else:
                 peft_model_state_dict[k] = v
-
+        
         if config.peft_type == PeftType.ADALORA:
             rank_pattern = config.rank_pattern
             if rank_pattern is not None:
